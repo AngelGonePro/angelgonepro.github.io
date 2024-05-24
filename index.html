@@ -12,6 +12,7 @@ body {
 </head>
 <body>
 
+<style>
 body {
   padding: 25px;
   background-color: white;
@@ -23,10 +24,21 @@ body {
   background-color: black;
   color: white;
 }
+</style>
+</head>
+<body>
+
+<h2>Toggle Dark/Light Mode</h2>
+<p>Click the button to toggle between dark and light mode for this page.</p>
+
+<button onclick="myFunction()">Toggle dark mode</button>
+
+<script>
 function myFunction() {
-  var element = document.body;
-  element.classList.toggle("dark-mode");
-} 
+   var element = document.body;
+   element.classList.toggle("dark-mode");
+}
+</script>
 
 <h1>THIS PAGE IS BLOCKED</h1>
 <p>Access Denied</p>
