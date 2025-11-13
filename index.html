@@ -63,23 +63,26 @@ body {
   /* Light mode colors */
   body.light-mode {
     background-color: #f5f5f5;
-    color: #008000; /* dark green for light background */
+    color: #008000; /* dark green text */
   }
   body.light-mode .cursor {
     background-color: #008000;
   }
 
+  /* Toggle button */
   #toggleMode {
     position: fixed;
     top: 10px;
     right: 10px;
+    z-index: 1000;
     background: #222;
     color: #fff;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 14px;
     cursor: pointer;
     font-family: monospace;
-    border-radius: 3px;
+    font-size: 0.9rem;
+    border-radius: 4px;
     transition: background 0.3s, color 0.3s;
   }
 
@@ -100,7 +103,7 @@ body {
     const cursor = document.getElementById("cursor");
     const toggleBtn = document.getElementById("toggleMode");
 
-    // Dark/Light toggle
+    // Dark/Light mode toggle
     toggleBtn.addEventListener("click", () => {
       document.body.classList.toggle("light-mode");
     });
@@ -151,7 +154,7 @@ _[ Press any key to reboot internet ]_
         cursor.insertAdjacentText("beforebegin", fullText.charAt(index));
         index++;
         terminal.scrollTop = terminal.scrollHeight;
-        setTimeout(type, 5);
+        setTimeout(type, 5); // typing speed
       }
     }
 
