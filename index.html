@@ -13,7 +13,7 @@ body {
 <body>
 
 <h1>THIS PAGE IS BLOCKED</h1>
-<p>IF YOU ARE COMMING FROM www.cosmoscraft.online and www.cosmoscraft.network DO NOT USE THESE DOMAINS ANYMORE!!!!</p>
+<p>IF YOU ARE COMING FROM www.cosmoscraft.online and www.cosmoscraft.network DO NOT USE THESE DOMAINS ANYMORE!!!!</p>
     
 <footer class="rounded-lg">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
@@ -29,35 +29,11 @@ body {
 
 <p>Access Denied</p>
 
-<style>
-body {
-  padding: 25px;
-  background-color: black;
-  color: white;
-  font-size: 25px;
-}
-
-.dark-mode {
-  background-color: white;
-  color: black;
-}
-</style>
-</head>
-<body>
-
-<button onclick="myFunction()">Toggle dark mode</button>
-
-<script>
-function myFunction() {
-   var element = document.body;
-   element.classList.toggle("dark-mode");
-}
-</script>
 <script>
   // Listen for any key press
   document.addEventListener('keydown', function(event) {
-     // Change the URL below to the page you want to open
-    window.location.href = 'https://status.cosmoscraft.net/';
+    // Change the URL below to the page you want to open
+    window.location.href = 'https://example.com';
   });
 </script>
 
@@ -71,10 +47,10 @@ function myFunction() {
   }
 
   .terminal {
-    white-space: pre;
+    white-space: pre-wrap;
+    line-height: 1.4em;
   }
 
-  /* Blinking cursor */
   .cursor {
     display: inline-block;
     width: 8px;
@@ -89,73 +65,87 @@ function myFunction() {
     50% { opacity: 0; }
   }
 </style>
-  
-<div class="terminal">
-  root@localhost:~# <span id="typed"></span><span class="cursor"></span>
-</div>
-<script>
-const text = "echo 'Hello, world!'";
-let i = 0;
-function type() {
-  if (i < text.length) {
-    document.getElementById("typed").textContent += text.charAt(i);
-    i++;
-    setTimeout(type, 40); // adjust speed here
-  }
-}
-type();
-</script>  
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    root@localhost:~# <span id="typed"></span><span class="cursor" id="cursor"></span>
+  </div>
 
-<pre id="cli"></pre>
-<script>
-const text = `root@localhost:~# echo ./error.txt
-================================================================================
-  Oops: 404 NOT FOUND
-================================================================================
-CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1
-Hardware name: BK-0010-01
+  <script>
+    const terminal = document.getElementById("terminal");
+    const typed = document.getElementById("typed");
+    const cursor = document.getElementById("cursor");
 
-RIP: 0010:locate_page+0x404/0xdeadbeef
-Code: Tried to access an unauthorized space
-Modules linked in:
- - hamster_fs
- - idle_procrastination
- - questionable_humor
- - gif_memes
+    // Lines to simulate
+    const lines = [
+      "================================================================================",
+       "Oops: 404 NOT FOUND",
+      "================================================================================",
+      "CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1",
+      "Hardware name: BK-0010-01",
+      "",
+      "RIP: 0010:locate_page+0x404/0xdeadbeef",
+      "Code: Tried to access an unauthorized space",
+      "Modules linked in:",
+      " - hamster_fs",
+      " - idle_procrastination",
+      " - questionable_humor",
+      " - gif_memes",
+      "",
+      "Process browser (pid: 404, stack limit = 0x7ffc404404)",
+      "Stack:",
+      "  0xdeadbeef 0xbaadf00d 0x40404040",
+      "  0xfeedface 0x00c0fefe 0x0badcafe",
+      "",
+      "CPU Registers:",
+      " EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface",
+      " EIP: Segmentation Fault: tried to dereference hamster",
+      "",
+      "CR2: 0000000000000000",
+      "---[ end trace 404 ]---",
+      "Kernel panic: Attempted to gain unauthorized access",
+      "",
+      "Suggested Actions:",
+      " - Check address and try again",
+      " - Pretend it didn't happen",
+      " - Find someone to complain to",
+      "",
+      "_[ Press any key to reboot internet ]_",
+      "",
+      "================================================================================'"
+    ];
 
-Process browser (pid: 404, stack limit = 0x7ffc404404)
-Stack:
-  0xdeadbeef 0xbaadf00d 0x40404040
-  0xfeedface 0x00c0fefe 0x0badcafe
+    let lineIndex = 0;
+    let charIndex = 0;
 
-CPU Registers:
- EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface
- EIP: Segmentation Fault: tried to dereference hamster
+    function type() {
+      if (lineIndex < lines.length) {
+        const currentLine = lines[lineIndex];
+        if (charIndex < currentLine.length) {
+          typed.textContent += currentLine.charAt(charIndex);
+          charIndex++;
+          setTimeout(type, 40); // typing speed
+        } else {
+          // Simulate pressing Enter
+          setTimeout(() => {
+            typed.textContent += "\n";
+            terminal.innerHTML += typed.textContent;
+            typed.textContent = "";
+            charIndex = 0;
+            lineIndex++;
+            terminal.innerHTML += "root@localhost:~# ";
+            terminal.appendChild(typed);
+            terminal.appendChild(cursor);
+            type();
+          }, 400);
+        }
+      } else {
+        // Typing finished — cursor keeps blinking
+      }
+    }
 
-CR2: 0000000000000000
----[ end trace 404 ]---
-Kernel panic: Attempted to gain unauthorized access
-
-Suggested Actions:
- - Check address and try again
- - Pretend it didn't happen
- - Find someone to complain to
-
-_[ Press any key to reboot internet ]_
-
-================================================================================
-
-root@localhost:~# `;
-let i = 0;
-function type() {
-  if (i < text.length) {
-    document.getElementById("cli").textContent += text.charAt(i);
-    i++;
-    setTimeout(type, 10 + Math.random() * 50);
-  }
-}
-type();
-</script>
+    type();
+  </script>
 
 </body>
 </html> 
