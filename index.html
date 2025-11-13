@@ -63,7 +63,7 @@ function myFunction() {
 
 <pre id="cli"></pre>
 <script>
-const text = `root@localhost:~# ls
+const text = `root@localhost:~# echo ./error.txt
 ================================================================================
   Oops: 404 NOT FOUND
 ================================================================================
@@ -104,7 +104,7 @@ function type() {
   if (i < text.length) {
     document.getElementById("cli").textContent += text.charAt(i);
     i++;
-    setTimeout(type, 50);
+    setTimeout(type, 10 + Math.random() * 50);
   }
 }
 type();
