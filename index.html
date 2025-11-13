@@ -60,6 +60,35 @@ function myFunction() {
     window.location.href = 'https://status.cosmoscraft.net/';
   });
 </script>
+
+<style>
+  body {
+    background-color: #000;
+    color: #00ff00;
+    font-family: monospace;
+    font-size: 1.1rem;
+    padding: 20px;
+  }
+
+  .terminal {
+    white-space: pre;
+  }
+
+  /* Blinking cursor */
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: #00ff00;
+    margin-left: 2px;
+    animation: blink 0.8s steps(1) infinite;
+    vertical-align: bottom;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+</style>
   
 <div class="terminal">
   root@localhost:~# <span id="typed"></span><span class="cursor"></span>
