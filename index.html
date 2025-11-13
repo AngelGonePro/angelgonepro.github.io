@@ -61,46 +61,43 @@ function myFunction() {
   });
 </script>
 
-<br>
-<br>================================================================================
-<br>  Oops: 404 NOT FOUND
-<br>================================================================================
-<br>CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1
-<br>Hardware name: BK-0010-01
-<br>
-<br>RIP: 0010:locate_page+0x404/0xdeadbeef
-<br>Code: Tried to access an unauthorized space
-<br>Modules linked in:
-<br> - hamster_fs
-<br> - idle_procrastination
-<br> - questionable_humor
-<br> - gif_memes
-<br>
-<br>Process browser (pid: 404, stack limit = 0x7ffc404404)
-<br>Stack:
-<br>  0xdeadbeef 0xbaadf00d 0x40404040
-<br>  0xfeedface 0x00c0fefe 0x0badcafe
-<br>
-<br>CPU Registers:
-<br> EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface
-<br> EIP: Segmentation Fault: tried to dereference hamster
-<br>
-<br>CR2: 0000000000000000
-<br>---[ end trace 404 ]---
-<br>Kernel panic: Attempted to gain unauthorized access
-<br>
-<br>Suggested Actions:
-<br> - Check address and try again
-<br> - Pretend it didn't happen
-<br> - Find someone to complain to
-<br>
-<br>_[ Press any key to reboot internet ]_ 
-<br>================================================================================
-
 <pre id="cli"></pre>
 <script>
 const text = `root@localhost:~# ls
-Documents  Downloads  Pictures  Videos
+================================================================================
+  Oops: 404 NOT FOUND
+================================================================================
+CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1
+Hardware name: BK-0010-01
+
+RIP: 0010:locate_page+0x404/0xdeadbeef
+Code: Tried to access an unauthorized space
+Modules linked in:
+ - hamster_fs
+ - idle_procrastination
+ - questionable_humor
+ - gif_memes
+
+Process browser (pid: 404, stack limit = 0x7ffc404404)
+Stack:
+  0xdeadbeef 0xbaadf00d 0x40404040
+  0xfeedface 0x00c0fefe 0x0badcafe
+
+CPU Registers:
+ EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface
+ EIP: Segmentation Fault: tried to dereference hamster
+
+CR2: 0000000000000000
+---[ end trace 404 ]---
+Kernel panic: Attempted to gain unauthorized access
+
+Suggested Actions:
+ - Check address and try again
+ - Pretend it didn't happen
+ - Find someone to complain to
+
+_[ Press any key to reboot internet ]_ 
+
 root@localhost:~# `;
 let i = 0;
 function type() {
