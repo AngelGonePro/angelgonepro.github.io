@@ -64,7 +64,19 @@ function myFunction() {
 <div class="terminal">
   root@localhost:~# <span id="typed"></span><span class="cursor"></span>
 </div>
-  
+<script>
+const text = "echo 'Hello, world!'";
+let i = 0;
+function type() {
+  if (i < text.length) {
+    document.getElementById("typed").textContent += text.charAt(i);
+    i++;
+    setTimeout(type, 40); // adjust speed here
+  }
+}
+type();
+</script>  
+
 <pre id="cli"></pre>
 <script>
 const text = `root@localhost:~# echo ./error.txt
@@ -115,19 +127,6 @@ function type() {
 }
 type();
 </script>
-
-<script>
-const text = "echo 'Hello, world!'";
-let i = 0;
-function type() {
-  if (i < text.length) {
-    document.getElementById("typed").textContent += text.charAt(i);
-    i++;
-    setTimeout(type, 40); // adjust speed here
-  }
-}
-type();
-</script>  
 
 </body>
 </html> 
