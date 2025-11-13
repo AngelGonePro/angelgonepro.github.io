@@ -29,22 +29,14 @@ body {
 
 <p>ACCESS DENIED</p>
 
-<script>
-  // Listen for any key press
-  document.addEventListener('keydown', function(event) {
-    / Change the URL below to the page you want to open
-    window.location.href = 'https://status.cosmoscraft.net/';
-  });
-</script>
-
 <style>
   body {
     background-color: #000;
     color: #00ff00;
     font-family: monospace;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     padding: 20px;
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color .3s, color .3s;
   }
 
   .terminal {
@@ -52,6 +44,7 @@ body {
     line-height: 1.4em;
     max-height: 90vh;
     overflow-y: auto;
+    padding-top: 2rem;
   }
 
   .cursor {
@@ -60,24 +53,20 @@ body {
     height: 1em;
     background-color: #00ff00;
     margin-left: 2px;
-    animation: blink 0.8s steps(1) infinite;
+    animation: blink .8s steps(1) infinite;
     vertical-align: bottom;
   }
 
-  @keyframes blink {
-    50% { opacity: 0; }
-  }
+  @keyframes blink { 50% { opacity: 0; } }
 
-  /* Light mode colors */
+  /* Light mode */
   body.light-mode {
     background-color: #f5f5f5;
-    color: #008000; /* dark green text */
+    color: #008000;
   }
-  body.light-mode .cursor {
-    background-color: #008000;
-  }
+  body.light-mode .cursor { background-color: #008000; }
 
-  /* Toggle button */
+  /* Toggle button (top-left) */
   #toggleMode {
     position: fixed;
     top: 10px;
@@ -86,38 +75,40 @@ body {
     background: #222;
     color: #fff;
     border: none;
-    padding: 8px 14px;
+    padding: 8px 12px;
     cursor: pointer;
     font-family: monospace;
-    font-size: 0.9rem;
     border-radius: 4px;
-    transition: background 0.3s, color 0.3s;
+    font-size: .9rem;
+    transition: background .3s, color .3s;
   }
-
-  body.light-mode #toggleMode {
-    background: #ddd;
-    color: #008000;
-  }
+  body.light-mode #toggleMode { background: #ddd; color: #008000; }
 </style>
 </head>
 <body>
-  <button id="toggleMode">Toggle Dark Mode</button>
+  <button id="toggleMode">Toggle Mode</button>
+
   <div class="terminal" id="terminal">
     root@localhost:~# <span class="cursor" id="cursor"></span>
   </div>
 
-  <script>
-    const terminal = document.getElementById("terminal");
-    const cursor = document.getElementById("cursor");
-    const toggleBtn = document.getElementById("toggleMode");
+<script>
+/* ---------- CONFIG ---------- */
+const TARGET_URL = "https://example.com"; // change this to desired URL
+const OPEN_IN_NEW_TAB = false;             // set true to open in new tab instead of navigating current tab
+/* ---------------------------- */
 
-    // Dark/Light mode toggle
-    toggleBtn.addEventListener("click", () => {
-      document.body.classList.toggle("light-mode");
-    });
+const terminal = document.getElementById('terminal');
+const cursor = document.getElementById('cursor');
+const toggleBtn = document.getElementById('toggleMode');
 
-    const command = "echo ./error.txt\n";
-    const fileOutput = `
+toggleBtn.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+});
+
+/* typing text: command then the file output */
+const command = "echo ./error.txt\n";
+const fileOutput = `
 ================================================================================
   Oops: 404 NOT FOUND
 ================================================================================
@@ -154,20 +145,49 @@ _[ Press any key to reboot internet ]_
 
 ================================================================================`;
 
-    const fullText = command + fileOutput;
-    let index = 0;
+const fullText = command + fileOutput;
+let idx = 0;
 
-    function type() {
-      if (index < fullText.length) {
-        cursor.insertAdjacentText("beforebegin", fullText.charAt(index));
-        index++;
-        terminal.scrollTop = terminal.scrollHeight;
-        setTimeout(type, 5); // typing speed
-      }
-    }
+/* typing animation */
+function typeChar() {
+  if (idx < fullText.length) {
+    cursor.insertAdjacentText('beforebegin', fullText.charAt(idx));
+    idx++;
+    terminal.scrollTop = terminal.scrollHeight;
+    setTimeout(typeChar, 5); // adjust typing speed here
+  }
+}
 
-    setTimeout(type, 400);
-  </script>
+/* start typing shortly after load */
+setTimeout(typeChar, 350);
 
+/* ---------- keypress handler to open page ---------- */
+/* Use `{ once: true }` so it only triggers once (prevents multiple navigations) */
+document.addEventListener('keydown', function onAnyKey(e) {
+  // optionally prevent default to stop accidental browser shortcuts (leave as-is if not wanted)
+  // e.preventDefault();
+
+  // Open target page. Choose either navigate current tab or open new tab.
+  if (OPEN_IN_NEW_TAB) {
+    // window.open uses user gesture (keydown) so should not be blocked in normal browsers
+    window.open(TARGET_URL, '_blank', 'noopener');
+  } else {
+    window.location.href = TARGET_URL;
+  }
+
+  // remove listener so it doesn't fire again
+}, { once: true });
+
+/* Optional: allow "reboot" by clearing and restarting when any key pressed after the typing finishes.
+   If you want that instead of navigation, remove the code above and use the code below:
+   
+document.addEventListener('keydown', () => {
+  terminal.textContent = 'root@localhost:~# ';
+  terminal.appendChild(cursor);
+  idx = 0;
+  setTimeout(typeChar, 200);
+});
+*/
+</script>
 </body>
 </html> 
