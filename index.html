@@ -49,6 +49,8 @@ body {
   .terminal {
     white-space: pre-wrap;
     line-height: 1.4em;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 
   .cursor {
@@ -68,84 +70,64 @@ body {
 </head>
 <body>
   <div class="terminal" id="terminal">
-    root@localhost:~# <span id="typed"></span><span class="cursor" id="cursor"></span>
+    root@localhost:~# <span class="cursor" id="cursor"></span>
   </div>
 
   <script>
     const terminal = document.getElementById("terminal");
-    const typed = document.getElementById("typed");
     const cursor = document.getElementById("cursor");
 
-    // Lines to simulate
-    const lines = [
-      "================================================================================",
-       "Oops: 404 NOT FOUND",
-      "================================================================================",
-      "CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1",
-      "Hardware name: BK-0010-01",
-      "",
-      "RIP: 0010:locate_page+0x404/0xdeadbeef",
-      "Code: Tried to access an unauthorized space",
-      "Modules linked in:",
-      " - hamster_fs",
-      " - idle_procrastination",
-      " - questionable_humor",
-      " - gif_memes",
-      "",
-      "Process browser (pid: 404, stack limit = 0x7ffc404404)",
-      "Stack:",
-      "  0xdeadbeef 0xbaadf00d 0x40404040",
-      "  0xfeedface 0x00c0fefe 0x0badcafe",
-      "",
-      "CPU Registers:",
-      " EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface",
-      " EIP: Segmentation Fault: tried to dereference hamster",
-      "",
-      "CR2: 0000000000000000",
-      "---[ end trace 404 ]---",
-      "Kernel panic: Attempted to gain unauthorized access",
-      "",
-      "Suggested Actions:",
-      " - Check address and try again",
-      " - Pretend it didn't happen",
-      " - Find someone to complain to",
-      "",
-      "_[ Press any key to reboot internet ]_",
-      "",
-      "================================================================================'"
-    ];
-    
-    let lineIndex = 0;
-    let charIndex = 0;
+    const command = "echo ./error.txt\n";
+    const fileOutput = `
+================================================================================
+  Oops: 404 NOT FOUND
+================================================================================
+CPU: 0 PID: 404 Comm: page fault Not tainted 4.0.4 #1
+Hardware name: BK-0010-01
+
+RIP: 0010:locate_page+0x404/0xdeadbeef
+Code: Tried to access an unauthorized space
+Modules linked in:
+ - hamster_fs
+ - idle_procrastination
+ - questionable_humor
+ - gif_memes
+
+Process browser (pid: 404, stack limit = 0x7ffc404404)
+Stack:
+  0xdeadbeef 0xbaadf00d 0x40404040
+  0xfeedface 0x00c0fefe 0x0badcafe
+
+CPU Registers:
+ EAX: 0xdeadbeef EBX: 0x40404040 ECX: 0xfeedface
+ EIP: Segmentation Fault: tried to dereference hamster
+
+CR2: 0000000000000000
+---[ end trace 404 ]---
+Kernel panic: Attempted to gain unauthorized access
+
+Suggested Actions:
+ - Check address and try again
+ - Pretend it didn't happen
+ - Find someone to complain to
+
+_[ Press any key to reboot internet ]_
+
+================================================================================`;
+
+    const fullText = command + fileOutput;
+    let index = 0;
 
     function type() {
-      if (lineIndex < lines.length) {
-        const currentLine = lines[lineIndex];
-        if (charIndex < currentLine.length) {
-          typed.textContent += currentLine.charAt(charIndex);
-          charIndex++;
-          setTimeout(type, 35); // Typing speed
-        } else {
-          // Move to next line
-          setTimeout(() => {
-            typed.textContent += "\n";
-            terminal.innerHTML = terminal.innerHTML.replace(cursor.outerHTML, "") + typed.textContent;
-            typed.textContent = "";
-            charIndex = 0;
-            lineIndex++;
-            // If next line is a command, show prompt
-            if (lines[lineIndex] && lines[lineIndex].startsWith("echo") || lines[lineIndex]?.startsWith("ping")) {
-              terminal.innerHTML += "root@localhost:~# ";
-            }
-            terminal.appendChild(typed);
-            terminal.appendChild(cursor);
-            type();
-          }, 300);
-        }
+      if (index < fullText.length) {
+        cursor.insertAdjacentText("beforebegin", fullText.charAt(index));
+        index++;
+        terminal.scrollTop = terminal.scrollHeight;
+        setTimeout(type, 5); // typing speed (lower = faster)
       }
     }
 
-    type();
+    setTimeout(type, 400);
   </script>
 
 </body>
