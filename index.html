@@ -96,6 +96,22 @@ function myFunction() {
 <br>
 <br>_[ Press any key to reboot internet ]_ 
 <br>================================================================================
+
+<pre id="cli"></pre>
+<script>
+const text = `root@localhost:~# ls
+Documents  Downloads  Pictures  Videos
+root@localhost:~# `;
+let i = 0;
+function type() {
+  if (i < text.length) {
+    document.getElementById("cli").textContent += text.charAt(i);
+    i++;
+    setTimeout(type, 50);
+  }
+}
+type();
+</script>
   
 </body>
 </html> 
