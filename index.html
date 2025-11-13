@@ -60,7 +60,11 @@ function myFunction() {
     window.location.href = 'https://status.cosmoscraft.net/';
   });
 </script>
-
+  
+<div class="terminal">
+  root@localhost:~# <span id="typed"></span><span class="cursor"></span>
+</div>
+  
 <pre id="cli"></pre>
 <script>
 const text = `root@localhost:~# echo ./error.txt
@@ -111,6 +115,19 @@ function type() {
 }
 type();
 </script>
-  
+
+<script>
+const text = "echo 'Hello, world!'";
+let i = 0;
+function type() {
+  if (i < text.length) {
+    document.getElementById("typed").textContent += text.charAt(i);
+    i++;
+    setTimeout(type, 40); // adjust speed here
+  }
+}
+type();
+</script>  
+
 </body>
 </html> 
