@@ -114,7 +114,7 @@ body {
       "",
       "================================================================================'"
     ];
-
+    
     let lineIndex = 0;
     let charIndex = 0;
 
@@ -124,23 +124,24 @@ body {
         if (charIndex < currentLine.length) {
           typed.textContent += currentLine.charAt(charIndex);
           charIndex++;
-          setTimeout(type, 40); // typing speed
+          setTimeout(type, 35); // Typing speed
         } else {
-          // Simulate pressing Enter
+          // Move to next line
           setTimeout(() => {
             typed.textContent += "\n";
-            terminal.innerHTML += typed.textContent;
+            terminal.innerHTML = terminal.innerHTML.replace(cursor.outerHTML, "") + typed.textContent;
             typed.textContent = "";
             charIndex = 0;
             lineIndex++;
-            terminal.innerHTML += "root@localhost:~# ";
+            // If next line is a command, show prompt
+            if (lines[lineIndex] && lines[lineIndex].startsWith("echo") || lines[lineIndex]?.startsWith("ping")) {
+              terminal.innerHTML += "root@localhost:~# ";
+            }
             terminal.appendChild(typed);
             terminal.appendChild(cursor);
             type();
-          }, 400);
+          }, 300);
         }
-      } else {
-        // Typing finished — cursor keeps blinking
       }
     }
 
